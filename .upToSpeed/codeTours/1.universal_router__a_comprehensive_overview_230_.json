@@ -1,0 +1,250 @@
+{
+    "title": "Universal Router: A Comprehensive Overview",
+    "id": "VRfMD/HJPocyH/ATQp7C3tsAUSl3RqRfEqUILgvKE1E=",
+    "steps": [
+        {
+            "type": "textOnly",
+            "description": "Welcome to the Universal Router project! This tour will provide a comprehensive overview of the Universal Router, a smart contract designed to streamline and optimize decentralized finance (DeFi) operations. The Universal Router allows users to execute complex, multi-step transactions across various protocols in a single transaction, improving efficiency and reducing gas costs.",
+            "title": "",
+            "id": "2213"
+        },
+        {
+            "type": "highlight",
+            "description": "The UniversalRouter contract is the core of the project, combining key functionalities for efficient DeFi operations. It inherits from two important contracts:\n\n1. Dispatcher: Handles the decoding and execution of various commands, allowing the router to interact with different protocols and perform complex operations.\n\n2. RewardsCollector: Manages the collection and distribution of rewards earned from transactions, enhancing the economic model of the router.\n\nBy inheriting from these contracts, UniversalRouter becomes a powerful, multi-functional smart contract capable of executing diverse DeFi operations in a single transaction, significantly improving efficiency and reducing gas costs for users.",
+            "file": "contracts/UniversalRouter.sol",
+            "highlight": [
+                {
+                    "start": 14,
+                    "end": 14
+                }
+            ],
+            "title": "",
+            "id": "2214"
+        },
+        {
+            "type": "highlight",
+            "description": "The execute function is the core of the UniversalRouter. It takes a series of commands and their corresponding inputs, allowing for complex, multi-step transactions to be executed in a single call.",
+            "file": "contracts/UniversalRouter.sol",
+            "highlight": [
+                {
+                    "start": 45,
+                    "end": 51
+                }
+            ],
+            "title": "",
+            "id": "2215"
+        },
+        {
+            "type": "revealFiles",
+            "files": [
+                "contracts/libraries/Commands.sol"
+            ],
+            "description": "The Commands library defines the various operations that can be performed through the Universal Router. Each command is represented by a unique identifier. Let's start by looking at the library structure and some important constants.",
+            "title": "",
+            "id": "2225"
+        },
+        {
+            "type": "highlight",
+            "description": "The first group of commands (value < 0x08) are executed in the first nested-if block. These include core operations like Uniswap V3 swaps, Permit2 transfers, and basic token operations.",
+            "file": "contracts/libraries/Commands.sol",
+            "highlight": [
+                {
+                    "start": 13,
+                    "end": 21
+                }
+            ],
+            "title": "",
+            "id": "2226"
+        },
+        {
+            "type": "highlight",
+            "description": "The second group of commands (0x08 <= value <= 0x0f) are executed in the second nested-if block. These include Uniswap V2 swaps, Permit2 operations, and ETH wrapping/unwrapping.",
+            "file": "contracts/libraries/Commands.sol",
+            "highlight": [
+                {
+                    "start": 27,
+                    "end": 35
+                }
+            ],
+            "title": "",
+            "id": "2227"
+        },
+        {
+            "type": "highlight",
+            "description": "The third group of commands (0x10 <= value < 0x18) are executed in the third nested-if block. These primarily deal with NFT marketplace interactions and ownership checks.",
+            "file": "contracts/libraries/Commands.sol",
+            "highlight": [
+                {
+                    "start": 41,
+                    "end": 49
+                }
+            ],
+            "title": "",
+            "id": "2228"
+        },
+        {
+            "type": "highlight",
+            "description": "The fourth group of commands (0x18 <= value <= 0x1f) are executed in the final nested-if block. These include additional NFT marketplace interactions and ERC1155 token operations.",
+            "file": "contracts/libraries/Commands.sol",
+            "highlight": [
+                {
+                    "start": 55,
+                    "end": 63
+                }
+            ],
+            "title": "",
+            "id": "2229"
+        },
+        {
+            "type": "highlight",
+            "description": "The last group of commands (0x20 <= value) includes operations for Seaport v1.4, sub-plan execution, and ERC20 approvals. The nested-if structure used in the Dispatcher contract helps minimize gas consumption by efficiently routing and executing the appropriate action based on the command type.",
+            "file": "contracts/libraries/Commands.sol",
+            "highlight": [
+                {
+                    "start": 69,
+                    "end": 74
+                }
+            ],
+            "title": "",
+            "id": "2230"
+        },
+        {
+            "type": "revealFiles",
+            "files": [
+                "contracts/base/Dispatcher.sol"
+            ],
+            "description": "The Dispatcher contract is a crucial component of the Universal Router. It contains the logic for decoding and executing various commands, efficiently routing and executing the appropriate action based on the command type.",
+            "title": "",
+            "id": "2231"
+        },
+        {
+            "type": "highlight",
+            "description": "The Dispatcher uses nested if-statements for efficient command routing. Let's examine the first two commands: V3_SWAP_EXACT_IN and V3_SWAP_EXACT_OUT. These commands handle Uniswap V3 swaps, using assembly for gas-efficient parameter decoding.",
+            "file": "contracts/base/Dispatcher.sol",
+            "highlight": [
+                {
+                    "start": 44,
+                    "end": 76
+                }
+            ],
+            "title": "",
+            "id": "2232"
+        },
+        {
+            "type": "highlight",
+            "description": "Next, we have the PERMIT2_TRANSFER_FROM and PERMIT2_PERMIT_BATCH commands. These integrate with the Permit2 system, allowing for efficient token transfers and batch permit operations.",
+            "file": "contracts/base/Dispatcher.sol",
+            "highlight": [
+                {
+                    "start": 77,
+                    "end": 92
+                }
+            ],
+            "title": "",
+            "id": "2233"
+        },
+        {
+            "type": "highlight",
+            "description": "The SWEEP, TRANSFER, and PAY_PORTION commands handle different token movement operations. SWEEP allows for collecting tokens, TRANSFER performs a standard token transfer, and PAY_PORTION transfers a percentage of tokens.",
+            "file": "contracts/base/Dispatcher.sol",
+            "highlight": [
+                {
+                    "start": 93,
+                    "end": 125
+                }
+            ],
+            "title": "",
+            "id": "2234"
+        },
+        {
+            "type": "highlight",
+            "description": "The second group of commands includes V2_SWAP_EXACT_IN, V2_SWAP_EXACT_OUT for Uniswap V2 swaps, PERMIT2_PERMIT for single permits, and operations for wrapping/unwrapping ETH.",
+            "file": "contracts/base/Dispatcher.sol",
+            "highlight": [
+                {
+                    "start": 131,
+                    "end": 189
+                }
+            ],
+            "title": "",
+            "id": "2235"
+        },
+        {
+            "type": "highlight",
+            "description": "The final commands include PERMIT2_TRANSFER_FROM_BATCH for batch transfers and BALANCE_CHECK_ERC20 for token balance verification. The contract reverts with InvalidCommandType for unsupported commands.",
+            "file": "contracts/base/Dispatcher.sol",
+            "highlight": [
+                {
+                    "start": 190,
+                    "end": 209
+                }
+            ],
+            "title": "",
+            "id": "2236"
+        },
+        {
+            "type": "textOnly",
+            "description": "The Dispatcher contract efficiently handles a wide range of DeFi operations through its command system. It uses nested if-statements and assembly for gas optimization, allowing the Universal Router to execute complex, multi-step transactions with minimal gas costs. This design enables the router to interact with various protocols and perform diverse operations in a single transaction.",
+            "title": "",
+            "id": "2237"
+        },
+        {
+            "type": "highlight",
+            "description": "The V3SwapRouter and V2SwapRouter modules handle interactions with Uniswap V3 and V2 respectively. They provide functions for executing swaps on these protocols.",
+            "file": "contracts/modules/uniswap/v3/V3SwapRouter.sol",
+            "highlight": [
+                {
+                    "start": 16,
+                    "end": 16
+                }
+            ],
+            "title": "",
+            "id": "2218"
+        },
+        {
+            "type": "highlight",
+            "description": "The Payments module provides functions for various token operations, including transfers, wrapping/unwrapping ETH, and sweeping tokens.",
+            "file": "contracts/modules/Payments.sol",
+            "highlight": [
+                {
+                    "start": 13,
+                    "end": 13
+                }
+            ],
+            "title": "",
+            "id": "2219"
+        },
+        {
+            "type": "highlight",
+            "description": "The Permit2Payments module integrates with the Permit2 contract, allowing for efficient and secure token approvals and transfers.",
+            "file": "contracts/modules/Permit2Payments.sol",
+            "highlight": [
+                {
+                    "start": 10,
+                    "end": 10
+                }
+            ],
+            "title": "",
+            "id": "2220"
+        },
+        {
+            "type": "highlight",
+            "description": "The RouterParameters struct defines the configuration parameters for the Universal Router, including addresses for various protocols and contracts it interacts with.",
+            "file": "contracts/base/RouterImmutables.sol",
+            "highlight": [
+                {
+                    "start": 4,
+                    "end": 25
+                }
+            ],
+            "title": "",
+            "id": "2221"
+        },
+        {
+            "type": "textOnly",
+            "description": "Before concluding our tour, let's examine some key security considerations for the Universal Router:\n\n1. Access Control: The contract uses modifiers like 'checkDeadline' to prevent outdated transactions.\n\n2. Reentrancy Protection: The execute function processes commands sequentially, mitigating reentrancy risks.\n\n3. Input Validation: Careful decoding and validation of input parameters help prevent malicious inputs.\n\n4. Integration Risks: As the Router interacts with multiple protocols, it's crucial to audit these integrations thoroughly.\n\n5. Upgradability: The contract is not upgradeable, which reduces certain risks but may limit future improvements.\n\nWhen auditing, pay special attention to these areas and how they might impact the overall security of the system.",
+            "title": "",
+            "id": "2222"
+        }
+    ]
+}
